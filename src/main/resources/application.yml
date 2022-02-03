@@ -1,0 +1,28 @@
+spring:
+  kafka:
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      bootstrap-servers: localhost:9092
+  datasource:
+    username: root
+    url: jdbc:postgresql://localhost:5432/accounts
+    password: secret
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+topic:
+  acc_created: accounts_created
+  acc_updated: accounts_updated
+  acc_deleted: accounts_removed
+
+server:
+  port: 8081
+  error:
+    include-message: always
