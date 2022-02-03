@@ -17,7 +17,7 @@ spring:
       ddl-auto: create-drop
     show-sql: true
 
-topic:
+topics:
   acc_created: accounts_created
   acc_updated: accounts_updated
   acc_deleted: accounts_removed
