@@ -24,4 +24,9 @@ public class AccountController {
     public Account updateOneAccount(@PathVariable("id") Long id, @RequestBody AccountUpdatePayload payload) {
         return this.service.updateAccount(id, payload);
     }
+
+    @DeleteMapping(path = "/{id}")
+    public Account deleteOneAccount(@PathVariable("id") Long id) {
+        return this.service.deleteAccount(id);
+    }
 }

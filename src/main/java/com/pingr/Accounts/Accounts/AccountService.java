@@ -68,4 +68,17 @@ public class AccountService {
             throw new IllegalArgumentException("Account updating violates restrictions" + "[account: " + account + "]");
         }
     }
+
+    public Account deleteAccount(Long id) {
+        Optional<Account> accOptional = this.repo.findById(id);
+
+        if (!accOptional.isPresent()) {
+            throw new AccountNotFoundException(id);
+        }
+
+        this.repo.deleteById(id);
+        Account account = accOptional.get();
+        this.producer.emitAccountDeletedEvent(account);
+        return account;
+    }
 }
