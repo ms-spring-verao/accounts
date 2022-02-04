@@ -91,4 +91,8 @@ public class AccountService {
 
         return accOptional.get();
     }
+
+    public List<AccountSearchView> search(String term) {
+        return this.repo.searchByUsernameAlike(term);
+    }
 }

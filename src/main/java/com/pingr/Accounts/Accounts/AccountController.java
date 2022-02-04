@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/accounts")
 public class AccountController {
@@ -33,5 +35,10 @@ public class AccountController {
     @GetMapping(path = "/{id}")
     public Account readOneAccount(@PathVariable("id") Long id) {
         return this.service.readAccount(id);
+    }
+
+    @GetMapping
+    public List<AccountSearchView> fuzzySearch(@RequestParam("term") String term) {
+        return this.service.search(term);
     }
 }
