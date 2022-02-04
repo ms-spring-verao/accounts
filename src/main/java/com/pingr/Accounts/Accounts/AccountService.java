@@ -81,4 +81,14 @@ public class AccountService {
         this.producer.emitAccountDeletedEvent(account);
         return account;
     }
+
+    public Account readAccount(Long id) {
+        Optional<Account> accOptional = this.repo.findById(id);
+
+        if (!accOptional.isPresent()) {
+            throw new AccountNotFoundException(id);
+        }
+
+        return accOptional.get();
+    }
 }

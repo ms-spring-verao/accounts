@@ -29,4 +29,9 @@ public class AccountController {
     public Account deleteOneAccount(@PathVariable("id") Long id) {
         return this.service.deleteAccount(id);
     }
+
+    @GetMapping(path = "/{id}")
+    public Account readOneAccount(@PathVariable("id") Long id) {
+        return this.service.readAccount(id);
+    }
 }
