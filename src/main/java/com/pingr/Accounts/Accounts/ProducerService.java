@@ -23,6 +23,6 @@ public class ProducerService {
     public void emitAccountCreatedEvent(Account account) {
         this.template.send(
                 this.accountCreatedTopic,
-                AccountEventView.createFromAccount(account));
+                AccountCreatedEvent.of(account));
     }
 }
