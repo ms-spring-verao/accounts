@@ -1,7 +1,8 @@
-package com.pingr.Accounts.Accounts;
+package com.pingr.Accounts.Accounts.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.pingr.Accounts.Accounts.Account;
 
 import java.util.HashMap;
 import java.util.Map;

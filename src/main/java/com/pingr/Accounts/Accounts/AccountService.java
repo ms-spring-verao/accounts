@@ -1,7 +1,11 @@
 package com.pingr.Accounts.Accounts;
 
+import com.pingr.Accounts.Accounts.exceptions.AccountNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -26,6 +30,42 @@ public class AccountService {
             return acc;
         } catch(Exception e) {
             throw new IllegalArgumentException("Account creation violates restrictions" + "[account: " + account + "]");
+        }
+    }
+
+    public Account updateAccount(Long id, AccountUpdatePayload updatePayload) throws AccountNotFoundException, IllegalArgumentException {
+        Optional<Account> accOptional = this.repo.findById(id);
+
+        if (!accOptional.isPresent()) {
+            throw new AccountNotFoundException(id);
+        }
+
+        String attrName = updatePayload.getAttributeName();
+
+        if (!List.of("email", "username", "password").contains(attrName)) {
+            throw new IllegalArgumentException("Account updating violates restrictions [attribute: " + attrName + " doesn't exist on type Account]");
+        }
+
+        String newValue = updatePayload.getNewAttributeValue();
+        Account account = accOptional.get();
+        switch (attrName) {
+            case "email":
+                account.setEmail(newValue);
+                break;
+            case "password":
+                account.setPassword(newValue);
+                break;
+            case "username":
+                account.setUsername(newValue);
+                break;
+        }
+
+        try {
+            Account acc = this.repo.save(account);
+            this.producer.emitAccountUpdatedEvent(acc, attrName);
+            return acc;
+        } catch(Exception e) {
+            throw new IllegalArgumentException("Account updating violates restrictions" + "[account: " + account + "]");
         }
     }
 }

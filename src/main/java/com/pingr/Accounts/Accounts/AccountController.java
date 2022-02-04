@@ -17,8 +17,11 @@ public class AccountController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Account createOneAccount(@RequestBody Account account) {
-        System.out.println(account);
-
         return this.service.createAccount(account);
+    }
+
+    @PutMapping(path = "/{id}")
+    public Account updateOneAccount(@PathVariable("id") Long id, @RequestBody AccountUpdatePayload payload) {
+        return this.service.updateAccount(id, payload);
     }
 }
