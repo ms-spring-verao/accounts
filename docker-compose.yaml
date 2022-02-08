@@ -8,6 +8,8 @@ services:
       - POSTGRES_USER=root
     ports:
       - 5432:5432
+    networks:
+      - pingr
 
   pgadmin:
     image: dpage/pgadmin4
@@ -18,11 +20,13 @@ services:
       - 9000:80
     depends_on:
       - pg
+    networks:
+      - pingr
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     networks:
-      - broker-kafka
+      - pingr
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -30,7 +34,7 @@ services:
   kafka:
     image: confluentinc/cp-kafka:latest
     networks:
-      - broker-kafka
+      - pingr
     depends_on:
       - zookeeper
     ports:
@@ -46,7 +50,7 @@ services:
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
     networks:
-      - broker-kafka
+      - pingr
     depends_on:
       - kafka
     ports:
@@ -55,5 +59,6 @@ services:
       KAFKA_BROKERCONNECT: kafka:29092
 
 networks:
-  broker-kafka:
+  pingr:
+    name: pingr
     driver: bridge
